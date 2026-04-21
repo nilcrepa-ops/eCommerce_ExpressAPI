@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-//conexion con BBDD
+//conexion con BBDD - TODO: Usar usuario creado en phpmyadmin y .env para credenciales
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
