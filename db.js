@@ -7,3 +7,11 @@ const connection = mysql.createConnection({
     password: '',
     database: 'apiexpress'
 });
+
+connection.connect(error => {
+    if(error) throw error;
+    console.log('Conexión exitosa a la BBDD');
+});
+
+module.exports = connection;
+
