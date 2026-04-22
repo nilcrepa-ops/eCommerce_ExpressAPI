@@ -1,13 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gestión de Productos</title>
     <script src="script.js" defer></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./img/Isotipo Blanco B (2).png" type="png">
 </head>
+
 <body>
-    
+    <div id="container">
+        <h1 id="gestion-productos">GESTIÓN DE PRODUCTOS</h1>
+        <div id="input-nombre-prod">
+            <h2 id="insertar-prod">Insertar Producto</h2>
+            <label for="id-prod">Nombre del producto: </label>
+            <input type="text" id="id-prod-post" name="id-prod-post">
+
+            <label for="precio-prod">Precio del producto: </label>
+            <input type="number" step="0.01" id="precio-prod-post" name="precio-prod-post">
+
+            <label for="desc-prod">Descripción del producto: </label>
+            <input type="text" id="desc-prod-post" name="desc-prod-post">
+            <button id="btn-guardar-prod">Guardar Producto</button>
+        </div>
+
+        <div id="input-nombre-prod">
+            <h2 id="update-prod">Actualizar Producto</h2>
+            <label for="nombre-prod">ID del producto: </label>
+            <input type="text" id="id-prod-put" name="id-prod">
+
+            <label for="nombre-prod">Nombre del producto: </label>
+            <input type="text" id="nombre-prod-put" name="id-prod">
+
+            <label for="precio-prod">Precio del producto: </label>
+            <input type="number" step="0.01" id="precio-prod-put" name="precio-prod">
+
+            <label for="desc-prod">Descripción del producto: </label>
+            <input type="text" id="desc-prod-put" name="desc-prod">
+            <button id="btn-actualizar-prod">Actualizar Producto</button>
+        </div>
+
+        <div id="lista-productos">
+            <h2 id="lista-prods">Lista de Productos</h2>
+            <table id="tabla-prods"> <!--meter datos desde JS-->
+
+            </table>
+        </div>
+    </div>
+
 </body>
+
 </html>

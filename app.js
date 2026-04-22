@@ -4,14 +4,12 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(express.static('public'));
 
-//Hola mundo en http://localhost:3000
-app.get('/', (req, res) => {
-    res.send('hola mundo');
-});
+//http://localhost:3000
 
 //Comprobar que el servidor este activo
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log(`Servidor activo en el puerto ${port}`);
 });
 
@@ -75,7 +73,11 @@ app.put('/products/:prod_id', (req, res) => {
         res.status(400).json({ error: 'Datos no válidos' });
         return;
     }
-    db.query('UPDATE products SET prod_name = ?, prod_price = ?, prod_desc = ?', [updatedProd.prod_name, updatedProd.prod_price, updatedProd.prod_desc], (err, results) => {
+    //prodId es necesario para el WHERE
+    console.log('body del prodId: ', prodId);
+
+    console.log('body del updated prod: ', updatedProd);
+    db.query('UPDATE products SET prod_name = ?, prod_price = ?, prod_desc = ? WHERE prod_id = ?', [updatedProd.prod_name, updatedProd.prod_price, updatedProd.prod_desc, prodId], (err, results) => {
         if (err) {
             console.error('Error al actualizar el producto:', err);
             res.status(500).json({ error: 'Error al actualizar el producto' });
@@ -85,16 +87,20 @@ app.put('/products/:prod_id', (req, res) => {
     });
 });
 
-//DELETE de un producto - Funciona, pero si introduces un ID no existente tambien "lo borra", TODO arreglarlo
+//DELETE de un producto - 
+/*
+La query en phpMyAdmin funciona, pero en postman si introduces un id no existente
+te da el mensaje correcto, todo arreglarlo
+*/
 
 app.delete('/products/:id', (req, res) => {
     const prodId = req.params.prod_id;
     db.query('DELETE FROM products WHERE prod_id = ?', [prodId], (err, results) => {
-        if(err){
+        if (err) {
             console.error('Error al eliminar el producto', err);
-            res.status(500).json({error: 'Error al eliminar el producto'});
+            res.status(500).json({ error: 'Error al eliminar el producto' });
         } else {
-            res.json({message: 'Producto eliminado con exito'});
+            res.json({ message: 'Producto eliminado con exito' });
         }
     });
 });
