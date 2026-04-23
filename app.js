@@ -93,8 +93,9 @@ La query en phpMyAdmin funciona, pero en postman si introduces un id no existent
 te da el mensaje correcto, todo arreglarlo
 */
 
-app.delete('/products/:id', (req, res) => {
+app.delete('/products/:prod_id', (req, res) => {
     const prodId = req.params.prod_id;
+    console.log('prodId: ', prodId);
     db.query('DELETE FROM products WHERE prod_id = ?', [prodId], (err, results) => {
         if (err) {
             console.error('Error al eliminar el producto', err);

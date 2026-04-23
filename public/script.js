@@ -1,5 +1,4 @@
-//TODO: Crear constante de boton eliminar (creado desde js) y añadir DELETE
-
+//TODO: Hacer que el post y put se muestren en la pagina sin refrescar
 const url = `http://localhost:3000`;
 
 //Elementos para insertar
@@ -32,22 +31,17 @@ async function llenarTabla() {
     console.log('Data de /products', data);
     //Extraemos la info de cada posicion
     data.products.forEach((p) => {
-        console.log('ID de cada producto FOREACH', p.prod_id);
-        console.log('Nombre de cada producto FOREACH', p.prod_name);
-        console.log('Precio de cada producto FOREACH', p.prod_price);
-        console.log('Descripción de cada producto FOREACH', p.prod_desc);
-
         prodsTable.innerHTML += `
+        <tbody id='product-${p.prod_id}'>
             <td>${p.prod_id}</td>
             <td>${p.prod_name}</td>
             <td>${p.prod_price} €</td>
             <td>${p.prod_desc}</td>
-            <td><button id="btn-delete-prod">Eliminar</button> </td>
-        `;
+            <td><button id="btn-delete-prod" onclick=eliminarProd(${p.prod_id})>Eliminar</button> </td>
+        </tbody>
+        `; //AÑADIR ONCLICK A BUTTON
     });
 }
-
-
 
 //Llamada a la API
 async function fetchJson(url) {
@@ -132,8 +126,46 @@ btnActualizar.addEventListener('click', function () {
 
 //Eliminar producto
 
+function eliminarProd(prod_id) {
+    const apiUrl = `${url}/products/${prod_id}`;
+    console.log('apiURL: ', apiUrl);
 
+    
+    if (!confirmarDelete()) {
+        return;
+    }
 
+    fetch(apiUrl, {
+        method: 'DELETE',
+    })
+        .then((response) => {
+            if (!response.ok) throw new Error(`Error en la solicitud ${response.status}`);
+        })
+        .then((data) => {
+            console.log('Producto eliminado con éxito', data);
+            alert('Producto eliminado con éxito');
+            //Hacer que la pagina se recargue automaticamente
+            /*Buscar el tbody que de id tenga el id correspondiente y borrar*/
+            const producto = document.getElementById(`product-${prod_id}`);
+            producto.remove();
+        })
+        .catch((error) => {
+            console.error('Error al eliminar producto', error);
+            alert('Error al eliminar producto');
+        });
+}
+
+function confirmarDelete() {
+    let confirmado = false;
+    let respuesta = confirm('¿Seguro que quieres eliminar el producto?');
+
+    if (respuesta) {
+        confirmado = true;
+    } else {
+        console.log('Cancelado');
+    }
+    return confirmado;
+}
 
 
 
