@@ -13,7 +13,7 @@ app.listen(port, () => {
     console.log(`Servidor activo en el puerto ${port}`);
 });
 
-//GET todos los productos - funciona
+//GET todos los productos 
 
 app.get('/products', (req, res) => {
     db.query('SELECT * FROM products', (err, results) => {
@@ -25,7 +25,7 @@ app.get('/products', (req, res) => {
     });
 });
 
-//GET de un producto - furula
+//GET de un producto
 
 app.get('/products/:prod_id', (req, res) => {
     const productId = req.params.prod_id;
@@ -43,7 +43,7 @@ app.get('/products/:prod_id', (req, res) => {
     });
 });
 
-//POST de un producto - funciona
+//POST de un producto 
 
 app.post('/products', (req, res) => {
     //console.log('cuerpo recibido: ', req.body);
@@ -63,7 +63,7 @@ app.post('/products', (req, res) => {
     });
 });
 
-//PUT de un producto - funciona
+//PUT de un producto
 
 app.put('/products/:prod_id', (req, res) => {
     const prodId = req.params.prod_id;
@@ -88,10 +88,6 @@ app.put('/products/:prod_id', (req, res) => {
 });
 
 //DELETE de un producto - 
-/*
-La query en phpMyAdmin funciona, pero en postman si introduces un id no existente
-te da el mensaje correcto, todo arreglarlo
-*/
 
 app.delete('/products/:prod_id', (req, res) => {
     const prodId = req.params.prod_id;

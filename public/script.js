@@ -16,7 +16,6 @@ const btnActualizar = document.getElementById('btn-actualizar-prod');
 
 //Tabla de productos y boton de eliminar
 const prodsTable = document.getElementById('tabla-prods');
-//Añadir constante con boton eliminar
 
 //Rellena tabla con los datos de la BBDD
 async function llenarTabla() {
@@ -39,7 +38,7 @@ async function llenarTabla() {
             <td>${p.prod_desc}</td>
             <td><button id="btn-delete-prod" onclick=eliminarProd(${p.prod_id})>Eliminar</button> </td>
         </tbody>
-        `; //AÑADIR ONCLICK A BUTTON
+        `; 
     });
 }
 
@@ -50,12 +49,6 @@ async function fetchJson(url) {
     const data = await response.json();
     return data;
 }
-/*Funcion para testear la recepcion de datos de la bbdd en el endpoint /products
-async function recibirData(){
-    const data = await fetchJson(`${url}/products/1`);
-    console.log('Data de /products', data);
-}
-btnGuardarPost.addEventListener('click', recibirData);*/
 
 //Insertar producto nuevo
 
@@ -167,7 +160,5 @@ function confirmarDelete() {
     return confirmado;
 }
 
-
-
-
+//Llenar tabla cuando cargue la pagina
 window.onload = llenarTabla;
