@@ -6,14 +6,9 @@ const port = 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-//http://localhost:3000
-
-//Comprobar que el servidor este activo
 app.listen(port, () => {
     console.log(`Servidor activo en el puerto ${port}`);
 });
-
-//GET todos los productos 
 
 app.get('/products', (req, res) => {
     db.query('SELECT * FROM products', (err, results) => {
@@ -24,8 +19,6 @@ app.get('/products', (req, res) => {
         }
     });
 });
-
-//GET de un producto
 
 app.get('/products/:prod_id', (req, res) => {
     const productId = req.params.prod_id;
@@ -43,12 +36,8 @@ app.get('/products/:prod_id', (req, res) => {
     });
 });
 
-//POST de un producto 
-
 app.post('/products', (req, res) => {
-    //console.log('cuerpo recibido: ', req.body);
     const newProd = req.body.product;
-    //Condicional para verificar datos antes de enviarlos al servidor
     if ((!newProd.prod_name || newProd.prod_name.trim() === '') || newProd.prod_price < 0) {
         res.status(400).json({ error: 'Datos no válidos' });
         return;
@@ -63,19 +52,14 @@ app.post('/products', (req, res) => {
     });
 });
 
-//PUT de un producto
-
 app.put('/products/:prod_id', (req, res) => {
     const prodId = req.params.prod_id;
     const updatedProd = req.body.product;
-    //Condicional para verificar datos antes de enviarlos al servidor
     if ((!updatedProd.prod_name || updatedProd.prod_name.trim() === '') || updatedProd.prod_price < 0) {
         res.status(400).json({ error: 'Datos no válidos' });
         return;
     }
-    //prodId es necesario para el WHERE
     console.log('body del prodId: ', prodId);
-
     console.log('body del updated prod: ', updatedProd);
     db.query('UPDATE products SET prod_name = ?, prod_price = ?, prod_desc = ? WHERE prod_id = ?', [updatedProd.prod_name, updatedProd.prod_price, updatedProd.prod_desc, prodId], (err, results) => {
         if (err) {
@@ -86,8 +70,6 @@ app.put('/products/:prod_id', (req, res) => {
         }
     });
 });
-
-//DELETE de un producto - 
 
 app.delete('/products/:prod_id', (req, res) => {
     const prodId = req.params.prod_id;

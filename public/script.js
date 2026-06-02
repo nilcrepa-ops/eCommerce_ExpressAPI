@@ -1,23 +1,18 @@
-//TODO: Hacer que el post y put se muestren en la pagina sin refrescar
 const url = `http://localhost:3000`;
 
-//Elementos para insertar
 const inputIDPost = document.getElementById('id-prod-post');
 const inputPricePost = document.getElementById('precio-prod-post');
 const inputDescPost = document.getElementById('desc-prod-post');
 const btnGuardar = document.getElementById('btn-guardar-prod');
 
-//Elementos para actualizar
 const inputIDPut = document.getElementById('id-prod-put');
 const inputNamePut = document.getElementById('nombre-prod-put');
 const inputPricePut = document.getElementById('precio-prod-put');
 const inputDescPut = document.getElementById('desc-prod-put');
 const btnActualizar = document.getElementById('btn-actualizar-prod');
 
-//Tabla de productos y boton de eliminar
 const prodsTable = document.getElementById('tabla-prods');
 
-//Rellena tabla con los datos de la BBDD
 async function llenarTabla() {
     prodsTable.innerHTML = `
         <th>ID</th>
@@ -28,7 +23,6 @@ async function llenarTabla() {
     `;
     const data = await fetchJson(`${url}/products`);
     console.log('Data de /products', data);
-    //Extraemos la info de cada posicion
     data.products.forEach((p) => {
         prodsTable.innerHTML += `
         <tbody id='product-${p.prod_id}'>
@@ -42,15 +36,12 @@ async function llenarTabla() {
     });
 }
 
-//Llamada a la API
 async function fetchJson(url) {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`${response.status}`);
     const data = await response.json();
     return data;
 }
-
-//Insertar producto nuevo
 
 btnGuardar.addEventListener('click', function () {
     const apiUrl = `${url}/products`;
@@ -82,8 +73,6 @@ btnGuardar.addEventListener('click', function () {
             alert('Error al agregar el producto');
         });
 });
-
-//Modificar producto
 
 btnActualizar.addEventListener('click', function () {
     const apiUrl = `${url}/products/${inputIDPut.value}`;
@@ -117,13 +106,10 @@ btnActualizar.addEventListener('click', function () {
         });
 });
 
-//Eliminar producto
-
 function eliminarProd(prod_id) {
     const apiUrl = `${url}/products/${prod_id}`;
     console.log('apiURL: ', apiUrl);
 
-    
     if (!confirmarDelete()) {
         return;
     }
@@ -137,8 +123,6 @@ function eliminarProd(prod_id) {
         .then((data) => {
             console.log('Producto eliminado con éxito', data);
             alert('Producto eliminado con éxito');
-            //Hacer que la pagina se recargue automaticamente
-            /*Buscar el tbody que de id tenga el id correspondiente y borrar*/
             const producto = document.getElementById(`product-${prod_id}`);
             producto.remove();
         })
@@ -160,5 +144,4 @@ function confirmarDelete() {
     return confirmado;
 }
 
-//Llenar tabla cuando cargue la pagina
 window.onload = llenarTabla;
